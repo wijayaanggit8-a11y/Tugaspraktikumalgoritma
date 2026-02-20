@@ -1,0 +1,74 @@
+#include <iostream>
+using namespace std; //Supaya tidak memakai std berulang
+
+int main() 
+{
+    int kapasitas;
+    // Input jumlah data 
+    cout << "Masukkan data yang ingin diproses: ";
+    cin >> kapasitas;
+
+    // Proteksi sederhana jika user memasukkan angka nol
+    if (kapasitas <= 0) 
+    {
+        cout << "Jumlah data tidak valid" << endl;
+        return 0;
+    }
+    // Alokasi memori dinamis
+    int* koleksiData = new int[kapasitas];
+    int* penunjuk = koleksiData;
+
+    // Input data pakai perulangan for
+    cout << "====== Masukkan Nilai Data ======" << endl;
+    for (int i=0; i<kapasitas; i++) 
+    {
+        cout << "Nilai data ke" << (i + 1) << ": ";
+        cin >> *(penunjuk + i); // Mengisi array pakai pointer
+    }
+
+    // Menampilkan ulang data yang di input
+    cout << "\nData yang Anda masukkan adalah: ";
+    for (int i=0; i<kapasitas; i++) 
+    {
+        cout << *(penunjuk + i) << " ";
+    }
+    // Proses pencarian (Max, Min, Total)
+    int nilaiMax = *penunjuk;
+    int nilaiMin = *penunjuk;
+    long totalNilai = 0;
+
+    for (int i=0; i<kapasitas; i++) 
+    {
+        int dataSekarang = *(penunjuk + i);
+        // Akumulasikan total
+        totalNilai += dataSekarang;
+        // Cek nilai yang tertinggi
+        if (dataSekarang>nilaiMax) 
+        {
+            nilaiMax = dataSekarang;
+        }
+        // Cek nilai yang terendah
+        if (dataSekarang < nilaiMin) 
+        {
+            nilaiMin = dataSekarang;
+        }
+    }
+
+    // Hitung rata-rata
+    double rerata = (double)totalNilai / kapasitas;
+
+    // Output akhir
+    cout << "\n=======================\n" << endl;
+    cout << "      HASIL PERHITUNGAN     " << endl;
+    cout << "============================" << endl;
+    cout << "Nilai Tertinggi : " << nilaiMax << endl;
+    cout << "Nilai Terendah  : " << nilaiMin << endl;
+    cout << "Total Keseluruhan: " << totalNilai << endl;
+    cout << "Rata-rata       : " << rerata << endl;
+    cout << "-----------------------" << endl;
+
+    // Menghapus memori agar tidak bocor
+    delete[] koleksiData;
+
+    return 0;
+}
