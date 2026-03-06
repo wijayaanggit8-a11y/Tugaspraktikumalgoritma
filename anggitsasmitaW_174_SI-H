@@ -1,0 +1,98 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+void tampilkanNama(string nama[], int n) 
+{
+    for(int i=0; i<n; i++) 
+    {
+        cout << i+1 << ". " << nama[i] << endl;
+    }
+}
+
+void bubbleSort(string nama[], int n) 
+{
+    for(int i=0; i<n-1; i++) 
+    {
+        for(int j=0; j<n-i-1; j++) 
+        {
+            if(nama[j] > nama[j+1]) 
+            {
+                string temp = nama[j];
+                nama[j] = nama[j+1];
+                nama[j+1] = temp;
+            }
+        }
+    }
+}
+
+int partition(string nama[], int low, int high) 
+{
+    string pivot = nama[high];
+    int i = (low - 1);
+    
+    for(int j = low; j <= high - 1; j++) 
+    {
+        if(nama[j] > pivot) 
+        {
+            i++; 
+            string temp = nama[i];
+            nama[i] = nama[j];
+            nama[j] = temp;
+        }
+    }
+    string temp = nama[i+1];
+    nama[i+1] = nama[high];
+    nama[high] = temp;
+    
+    return (i + 1);
+}
+
+void quickSort(string nama[], int low, int high) 
+{
+    if(low < high) 
+    {
+        int pi = partition(nama, low, high);
+        quickSort(nama, low, pi - 1);
+        quickSort(nama, pi + 1, high);
+    }
+}
+
+int main() 
+{
+    int jumlahMahasiswa;
+
+    cout << "=== PROGRAM PENGURUTAN DATA MAHASISWA ===" << endl;
+    cout << "Masukkan jumlah mahasiswa: ";
+    cin >> jumlahMahasiswa;
+    cin.ignore();
+    
+    string namaMahasiswa[jumlahMahasiswa];
+
+    cout << "\nMasukkan nama-nama mahasiswa:" << endl;
+    for(int i = 0; i < jumlahMahasiswa; i++) 
+    {
+        cout << "Nama mahasiswa ke-" << i+1 << ": ";
+        getline(cin, namaMahasiswa[i]);
+    }
+    
+    string namaAsc[jumlahMahasiswa];
+    string namaDesc[jumlahMahasiswa];
+    
+    for(int i = 0; i < jumlahMahasiswa; i++) 
+    {
+        namaAsc[i] = namaMahasiswa[i];
+        namaDesc[i] = namaMahasiswa[i];
+    }
+    bubbleSort(namaAsc, jumlahMahasiswa);
+
+    cout << "\n=== HASIL PENGURUTAN BUBBLE SORT ===" << endl;
+    tampilkanNama(namaAsc, jumlahMahasiswa);
+    
+    quickSort(namaDesc, 0, jumlahMahasiswa - 1);
+    
+    cout << "\n=== HASIL PENGURUTAN QUICK SORT ===" << endl;
+    tampilkanNama(namaDesc, jumlahMahasiswa);
+    
+    return 0;
+}
